@@ -14,19 +14,28 @@ def hsv_to_hex(h, s, v):
     return '#{0:02X}{1:02X}{2:02X}'.format(int(r * 255), int(g * 255), int(b * 255))
 
 
-def generate_coordinated_pastel_colors():
-    """Generate three coordinated pastel colors by varying the hue."""
+def generate_coordinated_pastel_colors_with_black_or_white():
+    """Generate two coordinated pastel colors and one color set to either black or white."""
     base_hue = random.random()  # Random hue between 0.0 and 1.0
     saturation = 0.4  # Fixed saturation for pastel effect
     value = 0.9  # Fixed value for pastel effect
 
-    hues = [(base_hue + i * 0.1) % 1.0 for i in range(3)]  # Generate hues with slight variation
+    hues = [(base_hue + i * 0.1) % 1.0 for i in range(2)]  # Generate hues with slight variation
 
-    return [hsv_to_hex(hue, saturation, value) for hue in hues]
+    pastel_colors = [hsv_to_hex(hue, saturation, value) for hue in hues]
+
+    # Randomly choose one color to be either black or white
+    black_or_white = random.choice(["#FFFFFF", "#000000"])
+
+    # Randomly decide where to insert the black or white color
+    insert_index = random.randint(0, 2)
+    pastel_colors.insert(insert_index, black_or_white)
+
+    return pastel_colors
 
 
-# Generate and print the coordinated pastel colors
-pastel_colors = generate_coordinated_pastel_colors()
-print(f"Pastel Color 1: {pastel_colors[0]}")
-print(f"Pastel Color 2: {pastel_colors[1]}")
-print(f"Pastel Color 3: {pastel_colors[2]}")
+# Generate and print the colors, with one being either black or white
+colors = generate_coordinated_pastel_colors_with_black_or_white()
+print(f"Color 1: {colors[0]}")
+print(f"Color 2: {colors[1]}")
+print(f"Color 3: {colors[2]}")
