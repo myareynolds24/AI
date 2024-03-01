@@ -14,28 +14,33 @@ def hsv_to_hex(h, s, v):
     return '#{0:02X}{1:02X}{2:02X}'.format(int(r * 255), int(g * 255), int(b * 255))
 
 
-def generate_coordinated_pastel_colors_with_black_or_white():
-    """Generate two coordinated pastel colors and one color set to either black or white."""
-    base_hue = random.random()  # Random hue between 0.0 and 1.0
-    saturation = 0.4  # Fixed saturation for pastel effect
-    value = 0.9  # Fixed value for pastel effect
+def generate_mixed_color_scheme():
+    """Generate a color scheme with one pastel color, one dark non-pastel color, and one color being either black or white."""
+    # Generate one pastel color
+    pastel_hue = random.random()
+    pastel_saturation = 0.4  # Fixed saturation for pastel effect
+    pastel_value = 0.9  # Fixed value for pastel effect
+    pastel_color = hsv_to_hex(pastel_hue, pastel_saturation, pastel_value)
 
-    hues = [(base_hue + i * 0.1) % 1.0 for i in range(2)]  # Generate hues with slight variation
+    # Generate one dark non-pastel color
+    dark_hue = random.random()
+    dark_saturation = random.uniform(0.5, 1.0)  # Higher saturation for more vivid color
+    dark_value = random.uniform(0.2, 0.5)  # Lower value for darkness
+    dark_color = hsv_to_hex(dark_hue, dark_saturation, dark_value)
 
-    pastel_colors = [hsv_to_hex(hue, saturation, value) for hue in hues]
-
-    # Randomly choose one color to be either black or white
+    # Randomly choose either black or white
     black_or_white = random.choice(["#FFFFFF", "#000000"])
 
-    # Randomly decide where to insert the black or white color
-    insert_index = random.randint(0, 2)
-    pastel_colors.insert(insert_index, black_or_white)
+    # Combine the colors into a list and shuffle it to randomize the order
+    colors = [pastel_color, dark_color, black_or_white]
+    random.shuffle(colors)
 
-    return pastel_colors
+    return colors
 
 
-# Generate and print the colors, with one being either black or white
-colors = generate_coordinated_pastel_colors_with_black_or_white()
+# Generate and print the mixed color scheme
+colors = generate_mixed_color_scheme()
 print(f"Color 1: {colors[0]}")
 print(f"Color 2: {colors[1]}")
 print(f"Color 3: {colors[2]}")
+
