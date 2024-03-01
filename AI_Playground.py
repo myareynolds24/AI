@@ -3,3 +3,38 @@
 # Program: AI Playground
 
 print("This will be a place for me to play with programming using AI technology \n")
+
+import random
+
+
+def random_color():
+    """Generate a random color in hex format."""
+    return "#{:06x}".format(random.randint(0, 0xFFFFFF))
+
+
+def triadic_scheme(base_color):
+    """Given a base color, calculate and return a triadic color scheme."""
+    # Convert hex to RGB
+    base_color_rgb = tuple(int(base_color.lstrip('#')[i:i + 2], 16) for i in (0, 2, 4))
+
+    # Simple approach to generate triadic colors by swapping R, G, B values
+    triadic1_rgb = base_color_rgb[1], base_color_rgb[2], base_color_rgb[0]  # Shift Right
+    triadic2_rgb = base_color_rgb[2], base_color_rgb[0], base_color_rgb[1]  # Shift Left
+
+    # Convert RGB back to hex
+    triadic1_hex = '#%02x%02x%02x' % triadic1_rgb
+    triadic2_hex = '#%02x%02x%02x' % triadic2_rgb
+
+    return base_color, triadic1_hex, triadic2_hex
+
+
+# Generate a random color
+base_color = random_color()
+
+# Get the triadic color scheme
+colors = triadic_scheme(base_color)
+
+print(f"Base Color: {colors[0]}")
+print(f"Triadic Color 1: {colors[1]}")
+print(f"Triadic Color 2: {colors[2]}")
+
