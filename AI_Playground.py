@@ -7,38 +7,37 @@ print("This will be a place for me to play with programming using AI technology 
 import random
 
 
-def pretty_random_color():
-    """Generate a 'pretty' random color in hex format by constraining the RGB values."""
-    # Constrain each color component to be in the middle range (60-200 out of 0-255) to avoid too bright or too dark colors
-    r = random.randint(60, 200)
-    g = random.randint(60, 200)
-    b = random.randint(60, 200)
-    return '#{:02X}{:02X}{:02X}'.format(r, g, b)
+def hsv_to_hex(h, s, v):
+    """Convert an HSV color to hex format."""
+    import colorsys
+    r, g, b = colorsys.hsv_to_rgb(h, s, v)
+    return '#{0:02X}{1:02X}{2:02X}'.format(int(r * 255), int(g * 255), int(b * 255))
 
 
-def triadic_scheme(base_color):
-    """Given a base color, calculate and return a triadic color scheme."""
-    # Convert hex to RGB
-    base_color_rgb = tuple(int(base_color.lstrip('#')[i:i + 2], 16) for i in (0, 2, 4))
+def generate_matching_pastel_colors():
+    """Generate three matching pastel colors."""
+    base_hue = random.random()  # Random hue between 0.0 and 1.0
+    # Base saturation and value ranges for pastel colors
+    base_saturation = random.uniform(0.2, 0.4)
+    base_value = random.uniform(0.8, 0.9)
 
-    # Generate triadic colors by swapping R, G, B values
-    triadic1_rgb = base_color_rgb[1], base_color_rgb[2], base_color_rgb[0]  # Shift Right
-    triadic2_rgb = base_color_rgb[2], base_color_rgb[0], base_color_rgb[1]  # Shift Left
+    # Generate variations in saturation and value for matching colors
+    variation = 0.05  # Variation factor
+    colors = []
+    for i in range(3):
+        s_variation = base_saturation + (random.uniform(-variation, variation))
+        v_variation = base_value + (random.uniform(-variation, variation))
+        # Ensure saturation and value stay within valid ranges
+        s = min(max(s_variation, 0.1), 0.5)
+        v = min(max(v_variation, 0.7), 1.0)
+        color_hex = hsv_to_hex(base_hue, s, v)
+        colors.append(color_hex)
 
-    # Convert RGB back to hex
-    triadic1_hex = '#%02X%02X%02X' % triadic1_rgb
-    triadic2_hex = '#%02X%02X%02X' % triadic2_rgb
-
-    return base_color, triadic1_hex, triadic2_hex
+    return colors
 
 
-# Generate a 'pretty' random color
-base_color = pretty_random_color()
-
-# Get the triadic color scheme
-colors = triadic_scheme(base_color)
-
-print(f"Base Color: {colors[0]}")
-print(f"Triadic Color 1: {colors[1]}")
-print(f"Triadic Color 2: {colors[2]}")
-
+# Generate and print the matching pastel colors
+pastel_colors = generate_matching_pastel_colors()
+print(f"Pastel Color 1: {pastel_colors[0]}")
+print(f"Pastel Color 2: {pastel_colors[1]}")
+print(f"Pastel Color 3: {pastel_colors[2]}")
